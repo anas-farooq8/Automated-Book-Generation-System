@@ -1,0 +1,1819 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1_MRjNnTaLAmXREa0_Rr9L0eRg-tUaBlSbymbniG9uRw",
+          "mode": "list",
+          "cachedResultName": "trial",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_MRjNnTaLAmXREa0_Rr9L0eRg-tUaBlSbymbniG9uRw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_MRjNnTaLAmXREa0_Rr9L0eRg-tUaBlSbymbniG9uRw/edit#gid=0"
+        },
+        "options": {
+          "columnsToWatch": [
+            "notes_on_outline_before"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        0
+      ],
+      "id": "2fa14799-721a-4284-ba6a-1bad730a2eef",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "VXG5cjTGJEFCFT5O",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Google Sheets Trigger').first().json.status_outline_notes }}",
+                    "rightValue": "no_notes_needed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a8981a65-1bef-4ea1-b43a-f2efd9d859f9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "No Notes Needed"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5e4eecb5-c248-416a-879f-af1dc8a0b431",
+                    "leftValue": "={{ $('Google Sheets Trigger').first().json.status_outline_notes }}",
+                    "rightValue": "no",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "=No"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4cb783e1-0f82-42ec-a35d-3dc8d1ece137",
+                    "leftValue": "={{ $('Google Sheets Trigger').first().json.status_outline_notes }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Empty"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b361ca2c-585c-444a-a7f5-e29358769030",
+                    "leftValue": "={{ $('Google Sheets Trigger').first().json.status_outline_notes }}",
+                    "rightValue": "yes",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Ask the user"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        944,
+        -256
+      ],
+      "id": "73e10650-dd4e-4ebd-97e3-9707a0d94d3e",
+      "name": "Status"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e9cd814a-aaa5-45fe-af70-cf3feabd4fd7",
+              "leftValue": "={{ $json.notes_on_outline_before }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "d0b1ee37-67d6-4b6d-aa2f-5846308005c4",
+              "leftValue": "={{ $json.book_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        112,
+        -16
+      ],
+      "id": "53eea8ea-4d38-48f8-aacf-63264cd90eca",
+      "name": "If Notes Exists and No Book"
+    },
+    {
+      "parameters": {
+        "sendTo": "anasfarooqwork@gmail.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.message }}",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Anas Farooq",
+          "replyToSenderOnly": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        576,
+        320
+      ],
+      "id": "e62f37e1-26aa-49f4-912d-b885f4a25ec1",
+      "name": "Send a message",
+      "webhookId": "22934262-2b8c-4996-8a6a-6c9f2476ee0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QbmPsiVNCjYShd0c",
+          "name": "Trial-Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6f792c5d-c499-4f03-8667-5bed88fba791",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -208,
+        0
+      ],
+      "id": "a4b9c830-5a55-44fd-8349-a68fec7bf701",
+      "name": "If Title is Not Empty"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec69f2c4-fad1-4056-afa7-5b2a3bbcbe19",
+              "name": "subject",
+              "value": "Notes Empty or Book Already Created!",
+              "type": "string"
+            },
+            {
+              "id": "55756ce8-5d57-41d6-9078-1b23d6764645",
+              "name": "message",
+              "value": "Your Notes before outline might be empty or the book is already created.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        112
+      ],
+      "id": "7603aa4f-b265-4ab5-818c-e9e588cc6e7c",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        432,
+        -48
+      ],
+      "id": "3bf20c76-e9c1-4309-94cd-cbd88618ae2a",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "dqpOuEHLkxOUWvGx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"blurb\": \"1–2 sentence description\",\n  \"chapters\": [\n    {\n      \"chapter_number\": 1,\n      \"chapter_title\": \"\",\n      \"description\": \"\",\n      \"suggested_wordcount\": \"\"\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        -32
+      ],
+      "id": "787be233-2821-48db-96d4-da0e4c38ce08",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        2512,
+        -32
+      ],
+      "id": "4d64266b-618a-4a95-ba70-37ac9e0da34f",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "dqpOuEHLkxOUWvGx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"chapter_number\": 1,\n  \"chapter_title\": \"chapter title\",\n  \"content\": \"full chapter text\",\n  \"summary\": \"short concise chapter summary\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2848,
+        -48
+      ],
+      "id": "b570d382-e26a-4dbe-b1c2-ea9a55c954bf",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "outline_json.chapters",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2176,
+        -272
+      ],
+      "id": "b182d499-3cbd-4841-b353-b4103d477b66",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2368,
+        -272
+      ],
+      "id": "873829d5-2aed-4bdf-8515-9da9ec63ac3b",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "tableId": "books",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "title",
+              "fieldValue": "={{ $json.title }}"
+            },
+            {
+              "fieldId": "notes_on_outline_before",
+              "fieldValue": "={{ $json.notes_on_outline_before }}"
+            },
+            {
+              "fieldId": "status_outline_notes",
+              "fieldValue": "={{ $json.status_outline_notes }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -224
+      ],
+      "id": "c45d68ea-9d64-4296-9ad5-fb8d0d39710b",
+      "name": "Create a Book",
+      "credentials": {
+        "supabaseApi": {
+          "id": "WdH2qzZ7K6BISvYJ",
+          "name": "Trial-Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Store Outline').item.json.book_id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2672,
+        -32
+      ],
+      "id": "61314469-e5e2-4da6-b80b-c76c12fd7f28",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "tableId": "outlines",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "book_id",
+              "fieldValue": "={{ $('Create a Book').item.json.id }}"
+            },
+            {
+              "fieldId": "outline_json",
+              "fieldValue": "={{ $json.output }}"
+            },
+            {
+              "fieldId": "version",
+              "fieldValue": "1"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        752,
+        -224
+      ],
+      "id": "70db521d-8a0a-41bc-b8ee-53e39e2cca01",
+      "name": "Store Outline",
+      "credentials": {
+        "supabaseApi": {
+          "id": "WdH2qzZ7K6BISvYJ",
+          "name": "Trial-Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=BOOK TITLE:\n{{ $('Google Sheets Trigger').item.json.title }}\n\nPREVIOUS CHAPTER SUMMARIES:\nInfer that from the memory.\n\nCURRENT CHAPTER DETAILS:\n- chapter_number: {{$json.chapter_number}}\n- chapter_title: {{$json.chapter_title}}\n- chapter_description: {{$json.description}}\n- suggested_wordcount: {{$json.suggested_wordcount}}\n\n\nTASK:\nWrite the full chapter {{$json.chapter_number}} titled \"{{$json.chapter_title}}\".\nFollow the chapter description and maintain continuity using the previous summaries.\n\nOUTPUT FORMAT (MANDATORY JSON):\n{\n  \"chapter_number\": <number>,\n  \"chapter_title\": \"<string>\",\n  \"content\": \"<full chapter text>\",\n  \"summary\": \"<short concise chapter summary>\"\n}\n\nIMPORTANT:\n- output MUST be valid JSON\n- do not use markdown\n- do not include backticks\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a senior ghostwriter and expert book composer.\nYour job is to write book chapters that are:\n\n- logically connected to previous chapters\n- consistent with the book’s outline\n- written in a simple, clear, beginner-friendly voice\n- coherent and flowing naturally\n- free of hallucination\n- aligned with editor notes when provided\n\nRULES:\n1. Always respect the chapter’s role in the full outline.\n2. Always use the “previous_chapter_summaries” to maintain continuity.\n3. Never contradict earlier chapters.\n4. Return ONLY valid JSON in the required structure.\n5. Never add commentary, markdown, or explanations.\n\nYou must produce two things:\n- the full chapter content (high quality writing)\n- a short 3–6 sentence summary of the chapter for future context chaining\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2608,
+        -256
+      ],
+      "id": "ce875307-9b76-489f-9760-890860f7a87b",
+      "name": "Create Chapters"
+    },
+    {
+      "parameters": {
+        "tableId": "chapters",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "book_id",
+              "fieldValue": "={{ $('Create a Book').first().json.id }}"
+            },
+            {
+              "fieldId": "outline_id",
+              "fieldValue": "={{ $('Store Outline').first().json.id }}"
+            },
+            {
+              "fieldId": "chapter_number",
+              "fieldValue": "={{ $json.output.chapter_number }}"
+            },
+            {
+              "fieldId": "chapter_title",
+              "fieldValue": "={{ $json.output.chapter_title }}"
+            },
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $json.output.content }}"
+            },
+            {
+              "fieldId": "summary",
+              "fieldValue": "={{ $json.output.summary }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3728,
+        -272
+      ],
+      "id": "a9697c46-fdbf-4a4c-996b-d63f966feeb3",
+      "name": "Store Chapters",
+      "credentials": {
+        "supabaseApi": {
+          "id": "WdH2qzZ7K6BISvYJ",
+          "name": "Trial-Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "anasfarooqwork@gmail.com",
+        "subject": "={{ $('Compile the Book').item.json.title }}",
+        "message": "=The Whole Book!",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3152,
+        -480
+      ],
+      "id": "2c2500cd-f12a-4b5a-9f5f-26fe06179ff7",
+      "name": "Send a message1",
+      "webhookId": "4a789cb4-0630-4d2c-a7b7-ce2a056039e5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QbmPsiVNCjYShd0c",
+          "name": "Trial-Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1584,
+        192
+      ],
+      "id": "dbaac792-601e-480d-aa33-835c90767ee8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "dqpOuEHLkxOUWvGx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"blurb\": \"1–2 sentence description\",\n  \"chapters\": [\n    {\n      \"chapter_number\": 1,\n      \"chapter_title\": \"\",\n      \"description\": \"\",\n      \"suggested_wordcount\": \"\"\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1904,
+        176
+      ],
+      "id": "ef874118-1af2-4fd2-8c76-a16231026d15",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Regenerate the complete book outline using the editor’s feedback.\n\nBOOK TITLE:\n{{ $('Google Sheets Trigger').first().json.title }}\n\nEDITOR NOTES BEFORE OUTLINE:\n{{ $('Google Sheets Trigger').first().json.notes_on_outline_before }}\n\nEDITOR NOTES AFTER OUTLINE (REVISION NOTES):\n{{ $json.data.Notes }}\n\nPREVIOUS OUTLINE (FULL JSON):\n{{ $('Create Outline').item.json.output.toJsonString() }}\n\nREQUIREMENTS:\n1. Output strictly in JSON.\n2. Use this exact structure:\n{\n  \"blurb\": \"1–2 sentence description of the book\",\n  \"chapters\": [\n    {\n      \"chapter_number\": 1,\n      \"chapter_title\": \"string\",\n      \"description\": \"1–2 sentence chapter description\",\n      \"suggested_wordcount\": \"150 - 300 words\"\n    }\n  ]\n}\n3. Apply editor notes to improve clarity, flow, structure, and chapter titles.\n4. Make the outline simple, clear, logical, and beginner-friendly.\n5. DO NOT include anything outside the JSON.\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a senior book architect and expert ghostwriter.\nYou regenerate and refine book outlines using editor feedback.\n\nYour outlines must be:\n- clean, logical, and beginner-friendly\n- consistent with the book's purpose\n- improved using both pre-outline and post-outline notes\n- written clearly and simply\n- well-structured with coherent flow\n\nRULES:\n1. You MUST use:\n   - The editor’s notes BEFORE outline generation\n   - The editor’s notes AFTER outline generation\n   - The previous outline provided\n2. You may reorganize or rename chapters if it strengthens clarity.\n3. Keep or gently adjust chapter numbering.\n4. ALWAYS output only valid JSON.\n5. NEVER include markdown, commentary, or text outside the JSON.\n\nTool:\nYou have access to the wikipedia tool, use it whenever you want to research on the topic. use at least once.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1600,
+        -16
+      ],
+      "id": "2100944e-5bf2-4f98-bb25-84733820e8b5",
+      "name": "Regenerate Outline"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "outlines",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Store Outline').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "outline_json",
+              "fieldValue": "={{ $('Regenerate Outline').item.json.output }}"
+            },
+            {
+              "fieldId": "version",
+              "fieldValue": "2"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        -16
+      ],
+      "id": "c8967785-2338-4e30-9b66-11d457c027d0",
+      "name": "Update Outline",
+      "credentials": {
+        "supabaseApi": {
+          "id": "WdH2qzZ7K6BISvYJ",
+          "name": "Trial-Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf7afb1a-8101-4a80-8cdc-6d3a38cb2813",
+              "name": "subject",
+              "value": "Missing Title!",
+              "type": "string"
+            },
+            {
+              "id": "dc9def12-2756-4cc5-83a8-c6a2aab9908f",
+              "name": "message",
+              "value": "Your Title is Missing. You must add that.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        32,
+        320
+      ],
+      "id": "2698954a-3f2b-492a-a6d7-b21fc2ea3086",
+      "name": "Set Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate a complete book outline (only 2-3 chapters).\n\nBOOK TITLE:\n{{$json[\"title\"]}}\n\nEDITOR NOTES BEFORE OUTLINE:\n{{$json[\"notes_on_outline_before\"]}}\n\nREQUIREMENTS:\n1. Output strictly in JSON.\n2. Structure:\n{\n  \"blurb\": \"1–2 sentence description\",\n  \"chapters\": [\n    {\n      \"chapter_number\": 1,\n      \"chapter_title\": \"\",\n      \"description\": \"\",\n      \"suggested_wordcount\": \"150 - 300 words\"\n    }\n  ]\n}\n3. Make the outline beginner-friendly, clear, and based on the notes.\n4. No extra text outside JSON.\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a professional book architect and ghostwriter.\nYou generate clean, logical, human-readable book outlines.\nYou always return valid JSON.\nTool:\nYou have access to the wikipedia tool, use it whenever you want to research on the topic. use at least once."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        448,
+        -224
+      ],
+      "id": "98c67d50-f759-41e5-94fe-199931729e6c",
+      "name": "Create Outline"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "eaefce12-00d9-4994-a571-41dbc73d5447",
+              "leftValue": "={{ $json.data['Do you want to Changes?'] }}",
+              "rightValue": "Yes",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1296,
+        0
+      ],
+      "id": "06060ac2-67c0-4e72-84d6-17a740d98667",
+      "name": "If Change"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "anasfarooqwork@gmail.com",
+        "subject": "Approval Needed for Outline",
+        "message": "=Blurb:\n{{ $json.outline_json.blurb }}\n\nChapters:\n{{ $json.outline_json.chapters.map((ch, i) => \n`chapter_number: ${ch.chapter_number}\ndescription: ${ch.description}\nchapter_title: ${ch.chapter_title}\nsuggested_wordcount: ${ch.suggested_wordcount}`\n).join(\"\\n\\n\") }}\n",
+        "responseType": "customForm",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Do you want to Changes?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Yes"
+                  },
+                  {
+                    "option": "No"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Notes",
+              "placeholder": "Enter Notes"
+            }
+          ]
+        },
+        "options": {
+          "limitWaitTime": {
+            "values": {
+              "resumeAmount": 5,
+              "resumeUnit": "minutes"
+            }
+          },
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1088,
+        0
+      ],
+      "id": "d0085987-4603-4d9f-96d1-e3bcd9e8e2d8",
+      "name": "Ask for Outline Approval",
+      "webhookId": "d7a8a2ea-441c-4fd4-a29f-d8e71bc4cda6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QbmPsiVNCjYShd0c",
+          "name": "Trial-Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "eaefce12-00d9-4994-a571-41dbc73d5447",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "Yes",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3216,
+        -256
+      ],
+      "id": "6c064928-94eb-4a55-8e06-b6573aa9e6ea",
+      "name": "If Change1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        3136,
+        208
+      ],
+      "id": "174c5cf1-bcfb-4b51-aa5f-60056c1c8f43",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "dqpOuEHLkxOUWvGx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"chapter_number\": 1,\n  \"chapter_title\": \"chapter title\",\n  \"content\": \"full chapter text\",\n  \"summary\": \"short concise chapter summary\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        3472,
+        192
+      ],
+      "id": "fc8b7476-1645-4f02-ab63-d5ec8430f9da",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Store Outline').item.json.book_id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        3296,
+        208
+      ],
+      "id": "66070855-a35e-4f76-bfe6-b620acc483f9",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=BOOK TITLE:\n{{ $('Google Sheets Trigger').first().json.title }}\n\nCURRENT CHAPTER DETAILS:\n- chapter_number: {{ $('Create Chapters').first().json.output.chapter_number }}\n- chapter_title: {{ $('Create Chapters').first().json.output.chapter_title }}\n- chapter_content: {{ $('Create Chapters').first().json.output.content }}\n- chapter_summary {{ $('Create Chapters').first().json.output.summary }}\n\nTASK:\nRegenerate the chapter.\n\n\nOUTPUT FORMAT (MANDATORY JSON):\n{\n  \"chapter_number\": <number>,\n  \"chapter_title\": \"<string>\",\n  \"content\": \"<full chapter text>\",\n  \"summary\": \"<short concise chapter summary>\"\n}\n\nIMPORTANT:\n- output MUST be valid JSON\n- do not use markdown\n- do not include backticks\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a senior ghostwriter and expert book composer.\nYour job is to write book chapters that are:\n\n- logically connected to previous chapters\n- consistent with the book’s outline\n- written in a simple, clear, beginner-friendly voice\n- coherent and flowing naturally\n- free of hallucination\n- aligned with editor notes when provided\n\nRULES:\n1. Always respect the chapter’s role in the full outline.\n2. Always use the “previous_chapter_summaries” to maintain continuity.\n3. Never contradict earlier chapters.\n4. Return ONLY valid JSON in the required structure.\n5. Never add commentary, markdown, or explanations.\n\nYou must produce two things:\n- the full chapter content (high quality writing)\n- a short 3–6 sentence summary of the chapter for future context chaining\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        3232,
+        -16
+      ],
+      "id": "7911e33b-9a46-4d50-88f6-7af7cc88912e",
+      "name": "Update Chapters"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41226e52-db84-4bb8-9b33-5ad94b1e03e7",
+              "name": "output.chapter_number",
+              "value": "={{ $('Create Chapters').item.json.output.chapter_number }}",
+              "type": "number"
+            },
+            {
+              "id": "e534d283-dd88-4393-aefb-5d3e2466c6b1",
+              "name": "output.chapter_title",
+              "value": "={{ $('Create Chapters').item.json.output.chapter_title }}",
+              "type": "string"
+            },
+            {
+              "id": "1aa3eedb-e2d9-43c7-b625-dd8a7c9e1ec0",
+              "name": "output.content",
+              "value": "={{ $('Create Chapters').item.json.output.content }}",
+              "type": "string"
+            },
+            {
+              "id": "451696e2-e501-4162-8ae6-07dc8016868e",
+              "name": "output.summary",
+              "value": "={{ $('Create Chapters').item.json.output.summary }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3504,
+        -272
+      ],
+      "id": "111b35ec-6de7-4bd2-9baf-c9208e0e130b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1_MRjNnTaLAmXREa0_Rr9L0eRg-tUaBlSbymbniG9uRw",
+          "mode": "list",
+          "cachedResultName": "trial",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_MRjNnTaLAmXREa0_Rr9L0eRg-tUaBlSbymbniG9uRw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_MRjNnTaLAmXREa0_Rr9L0eRg-tUaBlSbymbniG9uRw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Google Sheets Trigger').first().json.id }}",
+            "book_id": "={{ $('Create a Book').first().json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "notes_on_outline_before",
+              "displayName": "notes_on_outline_before",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "status_outline_notes",
+              "displayName": "status_outline_notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "editor_email",
+              "displayName": "editor_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "book_id",
+              "displayName": "book_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3360,
+        -480
+      ],
+      "id": "72f46ecf-bcb8-4173-832d-c13852d3f848",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "zUvrbU8et5CEPMbV",
+          "name": "Trial-Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "books",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Create a Book').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "notes_on_outline_after",
+              "fieldValue": "={{ $('If Change').item.json.data.Notes }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        -16
+      ],
+      "id": "fa759b25-8b4f-4ae8-9a95-44f6b4959d0c",
+      "name": "Update Book",
+      "credentials": {
+        "supabaseApi": {
+          "id": "WdH2qzZ7K6BISvYJ",
+          "name": "Trial-Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "anasfarooqwork@gmail.com",
+        "subject": "Approval Needed for Chapter",
+        "message": "=Chapter Number: {{ $json.output.chapter_number }}\nChapter Title: {{ $json.output.chapter_title }}\nChapter Content: {{ $json.output.content }}\nChapter Sumamry: {{ $json.output.summary }}\n",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {
+          "limitWaitTime": {
+            "values": {
+              "resumeAmount": 5,
+              "resumeUnit": "minutes"
+            }
+          },
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3008,
+        -256
+      ],
+      "id": "ec5672ee-f356-408a-a67b-9eded93616a7",
+      "name": "Approval for Chapter",
+      "webhookId": "d7a8a2ea-441c-4fd4-a29f-d8e71bc4cda6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QbmPsiVNCjYShd0c",
+          "name": "Trial-Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "448ebaca-0f0b-47fe-a186-8433b03cd8eb",
+              "name": "output.chapter_number",
+              "value": "={{ $json.output.chapter_number }}",
+              "type": "number"
+            },
+            {
+              "id": "88e19c6b-3f24-46d1-b930-3069b7eb8f6e",
+              "name": "output.chapter_title",
+              "value": "={{ $json.output.chapter_title }}",
+              "type": "string"
+            },
+            {
+              "id": "e00181ef-d58a-42c4-93e8-3a5dd6bdb811",
+              "name": "output.content",
+              "value": "={{ $json.output.content }}",
+              "type": "string"
+            },
+            {
+              "id": "ea7adeb3-00b3-4056-8edf-05eec3d83059",
+              "name": "output.summary",
+              "value": "={{ $json.output.summary }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3584,
+        -16
+      ],
+      "id": "ec84793a-dbca-43c2-933a-28d961f8e5ca",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f7134c8-42c9-4319-8fc6-c24fa630f0d8",
+              "name": "id",
+              "value": "={{ $('Store Outline').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "97f5469a-3d28-4da6-a6f9-6b048076fd7d",
+              "name": "book_id",
+              "value": "={{ $('Store Outline').item.json.book_id }}",
+              "type": "string"
+            },
+            {
+              "id": "96e3e419-0e98-4e4a-8af7-d30ffdde8163",
+              "name": "outline_json",
+              "value": "={{ $('Store Outline').item.json.outline_json }}",
+              "type": "object"
+            },
+            {
+              "id": "dd8d0403-e15e-495d-be5f-0c9a4d640bc9",
+              "name": "version",
+              "value": "={{ $('Store Outline').item.json.version }}",
+              "type": "string"
+            },
+            {
+              "id": "25cf6351-4ec3-4337-a43b-c1e61ddc3b74",
+              "name": "created_at",
+              "value": "={{ $('Store Outline').item.json.created_at }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1456,
+        96
+      ],
+      "id": "688613fb-32ab-43b0-9085-46833b55021f",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        592,
+        -32
+      ],
+      "id": "621601dd-25c6-4fb2-8a8a-8a8737ad8369",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        192
+      ],
+      "id": "ffa72f72-8613-4846-8d52-597a87629376",
+      "name": "Wikipedia1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all().map(i => i.json);\n\n// =====================================================\n// 2. Detect if compiled_text already exists\n// =====================================================\nconst compiledItem = items.find(i => i.compiled_text);\n\n// =====================================================\n// 3. If compiled_text exists → output as binary\n// =====================================================\nif (compiledItem) {\n    const text = compiledItem.compiled_text;\n\n    // Convert text into binary buffer\n    const buffer = Buffer.from(text, \"utf-8\");\n\n    // Return binary output\n    return {\n        json: {},\n        binary: {\n            data: {\n                data: buffer,\n                mimeType: \"text/plain\",\n                fileName: \"book.txt\"\n            }\n        }\n    };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2928,
+        -480
+      ],
+      "id": "51811b51-a9f6-459f-842c-e4fc2d9e7b48",
+      "name": "Convert to Binary"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ---- INPUTS ----\n// Book title from Google Sheets trigger\nconst title = $('Google Sheets Trigger').first().json.title;\n\n// Outline\nconst outline = $('Store Outline').first().json.outline_json;\n\n// Chapters array from previous node\nlet chapters = $input.all().map(item => item.json);\n\n// ---- PREP ----\n// Sort chapters by chapter_number\nchapters = chapters.sort((a, b) => a.chapter_number - b.chapter_number);\n\n// Extract blurb + table of contents\nconst blurb = outline?.blurb || \"\";\n\nconst toc = chapters.map(ch => {\n  return `Chapter ${ch.chapter_number}: ${ch.chapter_title}`;\n}).join('\\n');\n\n// ---- BUILD BOOK ----\nlet bookText = \"\";\n\n// Title Page\nbookText += `${title}\\n`;\nbookText += `\\n\\n`;\nbookText += `By Automated Book Generation System\\n`;\nbookText += `\\n\\n\\n`;\n\n// Blurb\nbookText += `=== Book Blurb ===\\n`;\nbookText += `${blurb}\\n`;\nbookText += `\\n\\n`;\n\n// Table of Contents\nbookText += `=== Table of Contents ===\\n`;\nbookText += `${toc}\\n`;\nbookText += `\\n\\n`;\n\n// Chapters\nchapters.forEach(ch => {\n  bookText += `=== Chapter ${ch.chapter_number}: ${ch.chapter_title} ===\\n\\n`;\n\n  // Add chapter content\n  bookText += `${ch.content || \"\"}\\n`;\n\n  // Add spacing after each chapter\n  bookText += `\\n\\n\\n`;\n});\n\n// ---- OUTPUT ----\nreturn [\n  {\n    json: {\n      title,\n      blurb,\n      outline,\n      chapter_count: chapters.length,\n      compiled_text: bookText\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2720,
+        -480
+      ],
+      "id": "ce0df336-8597-407f-9c37-064ef62f88fa",
+      "name": "Compile the Book"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        -192
+      ],
+      "id": "9cbbc258-b635-4bf9-8f09-8eb0f52aa605",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1360,
+        "width": 4592,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -560,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "51ec8adb-89bd-468b-a464-c60213534856",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If Title is Not Empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ask for Outline Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Notes Exists and No Book": {
+      "main": [
+        [
+          {
+            "node": "Create a Book",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Title is Not Empty": {
+      "main": [
+        [
+          {
+            "node": "If Notes Exists and No Book",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Outline",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Create Outline",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Chapters",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Create Chapters",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Compile the Book",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Chapters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a Book": {
+      "main": [
+        [
+          {
+            "node": "Create Outline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Create Chapters",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Outline": {
+      "main": [
+        [
+          {
+            "node": "Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Chapters": {
+      "main": [
+        [
+          {
+            "node": "Approval for Chapter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Chapters": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Regenerate Outline",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Regenerate Outline",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Regenerate Outline": {
+      "main": [
+        [
+          {
+            "node": "Update Book",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Outline": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Outline": {
+      "main": [
+        [
+          {
+            "node": "Store Outline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Change": {
+      "main": [
+        [
+          {
+            "node": "Regenerate Outline",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask for Outline Approval": {
+      "main": [
+        [
+          {
+            "node": "If Change",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Change1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Chapters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Update Chapters",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Update Chapters",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Update Chapters",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Chapters": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Store Chapters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Book": {
+      "main": [
+        [
+          {
+            "node": "Update Outline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval for Chapter": {
+      "main": [
+        [
+          {
+            "node": "If Change1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Store Chapters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "Create Outline",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Regenerate Outline",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Binary": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compile the Book": {
+      "main": [
+        [
+          {
+            "node": "Convert to Binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {
+    "Google Sheets Trigger": [
+      {
+        "id": 2,
+        "title": "The Rise of Smart Cities",
+        "notes_on_outline_before": "Write outline focused on beginners and real-life examples",
+        "status_outline_notes": "yes",
+        "editor_email": "anasfarooqwork@gmail.com",
+        "book_id": ""
+      }
+    ]
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0cf1013c00750bfab7ca7f6a76bf0e8c2407d7a4a9a4e66c4888ec456837f043"
+  }
+}
