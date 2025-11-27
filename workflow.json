@@ -308,8 +308,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        432,
-        -48
+        400,
+        -32
       ],
       "id": "3bf20c76-e9c1-4309-94cd-cbd88618ae2a",
       "name": "OpenAI Chat Model1",
@@ -327,7 +327,7 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        736,
+        720,
         -32
       ],
       "id": "787be233-2821-48db-96d4-da0e4c38ce08",
@@ -346,7 +346,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        2512,
+        2496,
         -32
       ],
       "id": "4d64266b-618a-4a95-ba70-37ac9e0da34f",
@@ -357,19 +357,6 @@
           "name": "OpenAi account"
         }
       }
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "{\n  \"chapter_number\": 1,\n  \"chapter_title\": \"chapter title\",\n  \"content\": \"full chapter text\",\n  \"summary\": \"short concise chapter summary\"\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.3,
-      "position": [
-        2848,
-        -48
-      ],
-      "id": "b570d382-e26a-4dbe-b1c2-ea9a55c954bf",
-      "name": "Structured Output Parser1"
     },
     {
       "parameters": {
@@ -442,7 +429,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        2672,
+        2656,
         -32
       ],
       "id": "61314469-e5e2-4da6-b80b-c76c12fd7f28",
@@ -489,7 +476,7 @@
         "text": "=BOOK TITLE:\n{{ $('Google Sheets Trigger').item.json.title }}\n\nPREVIOUS CHAPTER SUMMARIES:\nInfer that from the memory.\n\nCURRENT CHAPTER DETAILS:\n- chapter_number: {{$json.chapter_number}}\n- chapter_title: {{$json.chapter_title}}\n- chapter_description: {{$json.description}}\n- suggested_wordcount: {{$json.suggested_wordcount}}\n\n\nTASK:\nWrite the full chapter {{$json.chapter_number}} titled \"{{$json.chapter_title}}\".\nFollow the chapter description and maintain continuity using the previous summaries.\n\nOUTPUT FORMAT (MANDATORY JSON):\n{\n  \"chapter_number\": <number>,\n  \"chapter_title\": \"<string>\",\n  \"content\": \"<full chapter text>\",\n  \"summary\": \"<short concise chapter summary>\"\n}\n\nIMPORTANT:\n- output MUST be valid JSON\n- do not use markdown\n- do not include backticks\n",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=You are a senior ghostwriter and expert book composer.\nYour job is to write book chapters that are:\n\n- logically connected to previous chapters\n- consistent with the book’s outline\n- written in a simple, clear, beginner-friendly voice\n- coherent and flowing naturally\n- free of hallucination\n- aligned with editor notes when provided\n\nRULES:\n1. Always respect the chapter’s role in the full outline.\n2. Always use the “previous_chapter_summaries” to maintain continuity.\n3. Never contradict earlier chapters.\n4. Return ONLY valid JSON in the required structure.\n5. Never add commentary, markdown, or explanations.\n\nYou must produce two things:\n- the full chapter content (high quality writing)\n- a short 3–6 sentence summary of the chapter for future context chaining\n"
+          "systemMessage": "=You are a senior ghostwriter and expert book composer.\nYour job is to write book chapters that are:\n\n- logically connected to previous chapters\n- consistent with the book’s outline\n- written in a simple, clear, beginner-friendly voice\n- coherent and flowing naturally\n- free of hallucination\n- aligned with editor notes when provided\n\nRULES:\n1. Always respect the chapter’s role in the full outline.\n2. Always use the “previous_chapter_summaries” to maintain continuity.\n3. Never contradict earlier chapters.\n4. Return ONLY valid JSON in the required structure.\n5. Never add commentary, markdown, or explanations.\n\nYou must produce two things:\n- the full chapter content (high quality writing)\n- a short 3–6 sentence summary of the chapter for future context chaining\n\nYou must respond ONLY with valid JSON. No explanations, no markdown code blocks, no additional text.\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -707,7 +694,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Generate a complete book outline (only 2-3 chapters).\n\nBOOK TITLE:\n{{$json[\"title\"]}}\n\nEDITOR NOTES BEFORE OUTLINE:\n{{$json[\"notes_on_outline_before\"]}}\n\nREQUIREMENTS:\n1. Output strictly in JSON.\n2. Structure:\n{\n  \"blurb\": \"1–2 sentence description\",\n  \"chapters\": [\n    {\n      \"chapter_number\": 1,\n      \"chapter_title\": \"\",\n      \"description\": \"\",\n      \"suggested_wordcount\": \"150 - 300 words\"\n    }\n  ]\n}\n3. Make the outline beginner-friendly, clear, and based on the notes.\n4. No extra text outside JSON.\n",
+        "text": "=Generate a complete book outline (only 3-5 chapters).\n\nBOOK TITLE:\n{{$json[\"title\"]}}\n\nEDITOR NOTES BEFORE OUTLINE:\n{{$json[\"notes_on_outline_before\"]}}\n\nREQUIREMENTS:\n1. Output strictly in JSON.\n2. Structure:\n{\n  \"blurb\": \"1–2 sentence description\",\n  \"chapters\": [\n    {\n      \"chapter_number\": 1,\n      \"chapter_title\": \"\",\n      \"description\": \"\",\n      \"suggested_wordcount\": \"150 - 300 words\"\n    }\n  ]\n}\n3. Make the outline beginner-friendly, clear, and based on the notes.\n4. No extra text outside JSON.\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=You are a professional book architect and ghostwriter.\nYou generate clean, logical, human-readable book outlines.\nYou always return valid JSON.\nTool:\nYou have access to the wikipedia tool, use it whenever you want to research on the topic. use at least once."
@@ -904,7 +891,7 @@
         "text": "=BOOK TITLE:\n{{ $('Google Sheets Trigger').first().json.title }}\n\nCURRENT CHAPTER DETAILS:\n- chapter_number: {{ $('Create Chapters').first().json.output.chapter_number }}\n- chapter_title: {{ $('Create Chapters').first().json.output.chapter_title }}\n- chapter_content: {{ $('Create Chapters').first().json.output.content }}\n- chapter_summary {{ $('Create Chapters').first().json.output.summary }}\n\nTASK:\nRegenerate the chapter.\n\n\nOUTPUT FORMAT (MANDATORY JSON):\n{\n  \"chapter_number\": <number>,\n  \"chapter_title\": \"<string>\",\n  \"content\": \"<full chapter text>\",\n  \"summary\": \"<short concise chapter summary>\"\n}\n\nIMPORTANT:\n- output MUST be valid JSON\n- do not use markdown\n- do not include backticks\n",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=You are a senior ghostwriter and expert book composer.\nYour job is to write book chapters that are:\n\n- logically connected to previous chapters\n- consistent with the book’s outline\n- written in a simple, clear, beginner-friendly voice\n- coherent and flowing naturally\n- free of hallucination\n- aligned with editor notes when provided\n\nRULES:\n1. Always respect the chapter’s role in the full outline.\n2. Always use the “previous_chapter_summaries” to maintain continuity.\n3. Never contradict earlier chapters.\n4. Return ONLY valid JSON in the required structure.\n5. Never add commentary, markdown, or explanations.\n\nYou must produce two things:\n- the full chapter content (high quality writing)\n- a short 3–6 sentence summary of the chapter for future context chaining\n"
+          "systemMessage": "=You are a senior ghostwriter and expert book composer.\nYour job is to write book chapters that are:\n\n- logically connected to previous chapters\n- consistent with the book’s outline\n- written in a simple, clear, beginner-friendly voice\n- coherent and flowing naturally\n- free of hallucination\n- aligned with editor notes when provided\n\nRULES:\n1. Always respect the chapter’s role in the full outline.\n2. Always use the “previous_chapter_summaries” to maintain continuity.\n3. Never contradict earlier chapters.\n4. Return ONLY valid JSON in the required structure.\n5. Never add commentary, markdown, or explanations.\n\nYou must produce two things:\n- the full chapter content (high quality writing)\n- a short 3–6 sentence summary of the chapter for future context chaining\n\nYou must respond ONLY with valid JSON. No explanations, no markdown code blocks, no additional text.\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1242,7 +1229,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
       "typeVersion": 1,
       "position": [
-        592,
+        576,
         -32
       ],
       "id": "621601dd-25c6-4fb2-8a8a-8a8737ad8369",
@@ -1311,6 +1298,19 @@
       "typeVersion": 1,
       "id": "51ec8adb-89bd-468b-a464-c60213534856",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"chapter_number\": 1,\n  \"chapter_title\": \"chapter title\",\n  \"content\": \"full chapter text\",\n  \"summary\": \"short concise chapter summary\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2800,
+        -32
+      ],
+      "id": "95471e24-81e7-44c9-ba79-4739d0fb210c",
+      "name": "Structured Output Parser4"
     }
   ],
   "connections": {
@@ -1432,17 +1432,6 @@
           {
             "node": "Create Chapters",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Structured Output Parser1": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "Create Chapters",
-            "type": "ai_outputParser",
             "index": 0
           }
         ]
@@ -1794,6 +1783,17 @@
           {
             "node": "Convert to Binary",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Create Chapters",
+            "type": "ai_outputParser",
             "index": 0
           }
         ]
